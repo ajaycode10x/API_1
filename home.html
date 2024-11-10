@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Giphy GIFs</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      margin-top: 50px;
+    }
+
+    h1 {
+      font-size: 2em;
+      color: #333;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1.2em;
+      margin-top: 20px;
+      cursor: pointer;
+      background-color: #ff5722;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background-color: #e64a19;
+    }
+
+    #gif-container {
+      margin-top: 20px;
+    }
+
+    #gif {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Random Giphy GIF</h1>
+    <button id="loadGif">Get Random GIF</button>
+    <div id="gif-container">
+      <img id="gif" src="" alt="Random GIF" />
+    </div>
+  </div>
+
+  <script>
+    const apiKey = 'YOUR_GIPHY_API_KEY'; // Replace with your Giphy API key
+    const gifContainer = document.getElementById('gif-container');
+    const gifImage = document.getElementById('gif');
+    const loadGifButton = document.getElementById('loadGif');
+
+    loadGifButton.addEventListener('click', fetchRandomGif);
+
+    function fetchRandomGif() {
+      const apiUrl = `https://api.giphy.com/v1/gifs/random?api_key=${apiKey}`;
+
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          const gifUrl = data.data.images.original.url;
+          gifImage.src = gifUrl;
+        })
+        .catch(error => {
+          console.error('Error fetching the GIF:', error);
+          gifContainer.innerHTML = '<p>Sorry, something went wrong. Try again later.</p>';
+        });
+    }
+  </script>
+</body>
+</html>
